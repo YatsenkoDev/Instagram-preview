@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:insta_preview/global/assets.dart';
+import 'package:insta_preview/global/constants.dart';
 import 'package:insta_preview/global/routes.dart';
 
 void main() {
@@ -31,8 +32,8 @@ class _MainAppState extends State<MainApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: [
-        const Locale('en'),
-        const Locale('ru'),
+        const Locale(kEnglishLocale),
+        const Locale(kRussianLocale),
       ],
     );
   }
@@ -42,9 +43,10 @@ class _MainAppState extends State<MainApp> {
       color: Colors.white,
     );
     return ThemeData(
-      primaryColor: Colors.cyan,
-      accentColor: Colors.pink[600],
+      primaryColor: kCyanColor,
+      accentColor: kPinkColor,
       scaffoldBackgroundColor: Colors.white,
+      cardColor: kCyanColor,
       fontFamily: kGilroyFont,
       textTheme: Theme.of(context).textTheme.copyWith(
             body1: textStyle,

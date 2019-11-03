@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -27,6 +28,6 @@ class GlobalTranslations {
   Future<void> loadLocalizationStrings(BuildContext context) async {
     String jsonContent = await rootBundle.loadString(
         'assets/locale/locale_${Localizations.localeOf(context).languageCode}.json');
-    _localizedStrings = json.decode(jsonContent);
+    _localizedStrings = SplayTreeMap.from(json.decode(jsonContent));
   }
 }
