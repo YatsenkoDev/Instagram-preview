@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_preview/api/model/user.dart';
-import 'package:insta_preview/feature/profile/widget/add_account_widget.dart';
-import 'package:insta_preview/feature/profile/widget/profile_list_element_widget.dart';
-import 'package:insta_preview/feature/profile/widget/profile_preview_widget.dart';
-import 'package:insta_preview/global/constants.dart';
+import 'package:insta_preview/feature/profile/add_account_widget.dart';
+import 'package:insta_preview/feature/profile/profile_list_element_widget.dart';
+import 'package:insta_preview/feature/profile/profile_preview_widget.dart';
 
 class ProfileExpandableListWidget extends StatelessWidget {
   final List<User> profileList;
@@ -36,27 +35,22 @@ class ProfileExpandableListWidget extends StatelessWidget {
             .toList()
               ..add(
                 PopupMenuItem(
-                  value: User.fromJson({
-                    kId: '22',
-                    kUserName: '§ user',
-                    kProfilePicture:
-                        'https://cdn2.iconfinder.com/data/icons/circle-avatars-1/128/050_girl_avatar_profile_woman_suit_student_officer-512.png'
-                  }),
+                  value: User.empty(),
                   child: AddAccountWidget(),
                 ),
               ),
         child: StreamBuilder<User>(
             stream: selectedUserStream,
             builder: (context, snapshot) {
-              return Padding(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  top: 8,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: snapshot.hasData
-                      ? <Widget>[
+              return snapshot.hasData
+                  ? Padding(
+                      padding: const EdgeInsets.only(
+                        left: 16,
+                        top: 8,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
                           ProfilePreviewWidget(
                             name: snapshot.data.username,
                             imageUrl: snapshot.data.profilePicture,
@@ -66,10 +60,10 @@ class ProfileExpandableListWidget extends StatelessWidget {
                             Icons.expand_more,
                             color: Colors.white,
                           ),
-                        ]
-                      : [],
-                ),
-              );
+                        ],
+                      ),
+                    )
+                  : const SizedBox.shrink();
             }),
         onSelected: onUserSelected);
   }

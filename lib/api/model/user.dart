@@ -9,4 +9,9 @@ class User {
       : id = json[kId],
         username = json[kUserName],
         profilePicture = json[kProfilePicture];
+
+  User.empty()
+      : id = null,
+        username = null,
+        profilePicture = null;
 }

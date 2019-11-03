@@ -13,21 +13,22 @@ class HomeBloc {
 
   Stream<User> get selectedUserStream => _selectedUserSubject.stream;
 
-  Sink<User> get selectedUserSink => _selectedUserSubject.sink;
-
   final _photoListSubject = BehaviorSubject<List<String>>();
 
   Stream<List<String>> get photoListStream => _photoListSubject.stream;
 
   HomeBloc() {
     _repositoryManager.getUsers().then(_userListSubject.add);
-    _repositoryManager
-        .getLastSelectedUser()
-        .then((l) {
-          print('got dta ${l?.username}');
-      _selectedUserSubject.add(l);
-    });
+    _repositoryManager.getLastSelectedUser().then(_selectedUserSubject.add);
+  }
+
+  void setSelectedUser(User user) {
+    if (user.id != null) {
+      _selectedUserSubject.add(user);
+    } else {
+      print('ADD new user');
     }
+  }
 
   void dispose() {
     _userListSubject.close();

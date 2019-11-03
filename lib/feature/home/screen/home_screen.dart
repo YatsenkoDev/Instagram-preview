@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:insta_preview/api/model/user.dart';
 import 'package:insta_preview/feature/home/bloc/home_bloc.dart';
 import 'package:insta_preview/feature/home/page/feed_page.dart';
-import 'package:insta_preview/feature/profile/widget/profile_list_widget.dart';
+import 'package:insta_preview/feature/profile/profile_list_widget.dart';
 import 'package:insta_preview/global/constants.dart';
 import 'package:insta_preview/global/global_translations.dart';
 import 'package:insta_preview/global/strings.dart' as string;
@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
                     return ProfileExpandableListWidget(
                       profileList: snapshot.data,
                       selectedUserStream: homeBloc.selectedUserStream,
-                      onUserSelected: homeBloc.selectedUserSink.add,
+                      onUserSelected: homeBloc.setSelectedUser,
                     );
                   }),
               actions: <Widget>[

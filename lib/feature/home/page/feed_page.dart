@@ -14,7 +14,7 @@ class FeedPage extends StatelessWidget {
         stream: photoListStream,
         builder: (context, snapshot) => !snapshot.hasData
             ? const Center(
-                child: CircularProgressIndicator(),
+                child: SizedBox(),//CircularProgressIndicator(), //todo return circular indicator
               )
             : GridView.count(
                 crossAxisCount: 3,

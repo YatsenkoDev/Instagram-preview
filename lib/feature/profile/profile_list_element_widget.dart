@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:insta_preview/feature/profile/widget/profile_preview_widget.dart';
+import 'package:insta_preview/feature/profile/profile_preview_widget.dart';
 
 const _checkerSize = 10.0;
 
