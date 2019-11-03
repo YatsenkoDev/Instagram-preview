@@ -1,75 +1,77 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_preview/api/model/user.dart';
-import 'package:insta_preview/feature/profile/bloc/profile_bloc.dart';
 import 'package:insta_preview/feature/profile/widget/add_account_widget.dart';
 import 'package:insta_preview/feature/profile/widget/profile_list_element_widget.dart';
 import 'package:insta_preview/feature/profile/widget/profile_preview_widget.dart';
-import 'package:provider/provider.dart';
+import 'package:insta_preview/global/constants.dart';
 
 class ProfileExpandableListWidget extends StatelessWidget {
   final List<User> profileList;
-  final User selectedUser;
   final Function(User) onUserSelected;
+  final Stream<User> selectedUserStream;
 
   const ProfileExpandableListWidget({
     this.profileList,
-    this.selectedUser,
     this.onUserSelected,
+    this.selectedUserStream,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Provider(
-      builder: (context) => ProfileBloc(),
-      dispose: (context, value) => value.dispose(),
-      child: Consumer<ProfileBloc>(builder: (_, profileBloc, __) {
-        return PopupMenuButton<User>(
-            itemBuilder: (context) => profileList
-                .map<PopupMenuItem<User>>((user) => PopupMenuItem<User>(
-                      value: user,
-                      child: StreamBuilder<User>(
-                          initialData: selectedUser,
-                          stream: profileBloc.selectedUserStream,
-                          builder: (context, snapshot) {
-                            return ProfileListElementWidget(
-                              imageUrl: user.profilePicture,
-                              name: user.username,
-                              selected: user.id == snapshot.data?.id,
-                            );
-                          }),
-                    ))
-                .toList()
-                  ..add(
-                    PopupMenuItem(
-                      value: null,
-                      child: AddAccountWidget(),
-                    ),
-                  ),
-            child: StreamBuilder<User>(
-                stream: profileBloc.selectedUserStream,
-                builder: (context, snapshot) {
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 16.0, top: 8.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        ProfilePreviewWidget(
-                          name: snapshot.data.username,
-                          imageUrl: snapshot.data.profilePicture,
-                          bold: true,
-                        ),
-                        Icon(
-                          Icons.expand_more,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                  );
-                }),
-            onSelected: onUserSelected);
-      }),
-    );
+    return PopupMenuButton<User>(
+        itemBuilder: (context) => profileList
+            .map<PopupMenuItem<User>>((user) => PopupMenuItem<User>(
+                  value: user,
+                  child: StreamBuilder<User>(
+                      stream: selectedUserStream,
+                      builder: (context, snapshot) {
+                        return ProfileListElementWidget(
+                          imageUrl: user.profilePicture,
+                          name: user.username,
+                          selected: user.id == snapshot.data?.id,
+                        );
+                      }),
+                ))
+            .toList()
+              ..add(
+                PopupMenuItem(
+                  value: User.fromJson({
+                    kId: '22',
+                    kUserName: '§ user',
+                    kProfilePicture:
+                        'https://cdn2.iconfinder.com/data/icons/circle-avatars-1/128/050_girl_avatar_profile_woman_suit_student_officer-512.png'
+                  }),
+                  child: AddAccountWidget(),
+                ),
+              ),
+        child: StreamBuilder<User>(
+            stream: selectedUserStream,
+            builder: (context, snapshot) {
+              return Padding(
+                padding: const EdgeInsets.only(
+                  left: 16,
+                  top: 8,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: snapshot.hasData
+                      ? <Widget>[
+                          ProfilePreviewWidget(
+                            name: snapshot.data.username,
+                            imageUrl: snapshot.data.profilePicture,
+                            bold: true,
+                          ),
+                          Icon(
+                            Icons.expand_more,
+                            color: Colors.white,
+                          ),
+                        ]
+                      : [],
+                ),
+              );
+            }),
+        onSelected: onUserSelected);
   }
 
 //  void _addAccount() {

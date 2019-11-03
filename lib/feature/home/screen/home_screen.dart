@@ -25,14 +25,12 @@ class HomeScreen extends StatelessWidget {
               backgroundColor: Theme.of(context).primaryColor,
               title: StreamBuilder<List<User>>(
                   initialData: const [],
-                  stream: homeBloc.profileListStream,
+                  stream: homeBloc.userListStream,
                   builder: (context, snapshot) {
                     return ProfileExpandableListWidget(
                       profileList: snapshot.data,
-                      selectedUser: null, //todo add selected user retriving
-                      onUserSelected: (user) {
-                        print('Selected user ${user.username}');
-                      },
+                      selectedUserStream: homeBloc.selectedUserStream,
+                      onUserSelected: homeBloc.selectedUserSink.add,
                     );
                   }),
               actions: <Widget>[

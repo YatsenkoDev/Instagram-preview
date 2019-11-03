@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:insta_preview/api/model/user.dart';
 
-class ApiRepository {
+class ApiManager {
   Future<User> getUser(String token) async {
     String resultPage =
         'https://api.instagram.com/v1/users/self/?access_token=$token';
