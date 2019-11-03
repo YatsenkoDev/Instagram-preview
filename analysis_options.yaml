@@ -1,0 +1,44 @@
+include: package:flutter/analysis_options_user.yaml
+
+linter:
+  rules:
+    - avoid_print
+    - avoid_relative_lib_imports
+    - avoid_returning_null_for_future
+    - avoid_slow_async_io
+    - avoid_types_as_parameter_names
+    - invariant_booleans
+    - list_remove_unrelated_type
+    - literal_only_boolean_expressions
+    - no_adjacent_strings_in_list
+    - prefer_void_to_null
+    - always_declare_return_types
+    - always_put_required_named_parameters_first
+    - always_require_non_null_named_parameters
+    - annotate_overrides
+    - avoid_as
+    - avoid_bool_literals_in_conditional_expressions
+    - avoid_catches_without_on_clauses
+    - avoid_catching_errors
+    - avoid_renaming_method_parameters
+    - avoid_returning_null
+    - avoid_returning_null_for_void
+    - avoid_returning_this
+    - avoid_shadowing_type_parameters
+    - avoid_single_cascade_in_expression_statements
+    - avoid_types_on_closure_parameters
+    - avoid_unused_constructor_parameters
+    - cascade_invocations
+    - constant_identifier_names
+    - curly_braces_in_flow_control_structures
+    - directives_ordering
+    - empty_catches
+    - file_names
+    - flutter_style_todos
+    - join_return_with_assignment
+    - library_prefixes
+    - lines_longer_than_80_chars
+    - one_member_abstracts
+    - overridden_fields
+    - prefer_const_constructors
+    - prefer_const_declarations

@@ -1,0 +1,15 @@
+require './Loco.rb'
+update_fastlane
+
+default_platform(:android)
+
+app_name = "Insta preview"
+LOCO_API_KEY = "sdV4qrTRCTzRwjcT1eWeS7jAnr19D3Pl"
+LOCO_DESTINATION_DIR = "../assets/locale/"
+
+desc "Sync translations from Loco"
+lane :update_loco do
+    LOCO = Loco.new(LOCO_API_KEY, "en")
+    LOCO.sync_languages(["en", "ru"], LOCO_DESTINATION_DIR)
+ end
+

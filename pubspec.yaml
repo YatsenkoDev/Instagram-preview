@@ -1,0 +1,31 @@
+name: insta_preview
+description: Instagram photo preview
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^0.1.2
+  rxdart: ^0.22.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+flutter:
+
+  uses-material-design: true
+
+  fonts:
+    - family: Gilroy
+      fonts:
+        - asset: assets/fonts/Gilroy-Light.ttf
+        - asset: assets/fonts/Gilroy-ExtraBold.ttf
+          weight: 700
