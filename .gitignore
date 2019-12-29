@@ -40,3 +40,4 @@ lib/generated_plugin_registrant.dart
 /fastlane/report.xml
 /.metadata
 /pubspec.lock
+/.flutter-plugins-dependencies
