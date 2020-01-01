@@ -43,7 +43,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
               fontSize: 20.0,
               color: Colors.white,
             )),
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.white,
         ),
       ),

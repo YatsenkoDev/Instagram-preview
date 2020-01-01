@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<HomeBloc>(
-      builder: (context) => HomeBloc(),
+      create: (context) => HomeBloc(),
       dispose: (context, value) => value.dispose(),
       child: DefaultTabController(
         length: 2,
