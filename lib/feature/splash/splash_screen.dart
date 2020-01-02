@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insta_preview/global/constants.dart';
+import 'package:insta_preview/global/global_translations.dart';
 import 'package:insta_preview/global/routes.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -11,8 +12,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 1))
-        .then((_) => Navigator.pushReplacementNamed(context, kHomeScreen));
+    Future.delayed(const Duration(milliseconds: kSplashDuration))
+        .then((_) async {
+      await translations.loadLocalizationStrings(context);
+      Navigator.pushReplacementNamed(context, kHomeScreen);
+    });
   }
 
   @override

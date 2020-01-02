@@ -15,6 +15,8 @@ const kUserName = 'username';
 const kProfilePicture = 'profile_picture';
 
 //WidgetData
-final kCupertinoAddIconData = IconData(0xf2c7,
+const kCupertinoAddIconData = IconData(0xf2c7,
     fontFamily: CupertinoIcons.iconFont,
     fontPackage: CupertinoIcons.iconFontPackage);
+
+const kSplashDuration = 1000;

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
-const _avatarRadius = 21.0;
-
 class ProfilePreviewWidget extends StatelessWidget {
   final String imageUrl;
   final String name;
   final bool bold;
+  final _avatarRadius = 21.0;
 
   const ProfilePreviewWidget({
     this.imageUrl,
@@ -30,7 +29,7 @@ class ProfilePreviewWidget extends StatelessWidget {
               ),
         const SizedBox(width: 8.0),
         ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 130.0),
+          constraints: const BoxConstraints(maxWidth: 170.0),
           child: Text(
             name,
             overflow: TextOverflow.ellipsis,

@@ -14,18 +14,13 @@ void main() {
   runApp(MainApp());
 }
 
-class MainApp extends StatefulWidget {
-  @override
-  _MainAppState createState() => _MainAppState();
-}
-
-class _MainAppState extends State<MainApp> {
+class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: kRoutesMap,
       initialRoute: kSplashScreen,
-      theme: _buildAppTheme(),
+      theme: _buildAppTheme(context),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -38,8 +33,8 @@ class _MainAppState extends State<MainApp> {
     );
   }
 
-  ThemeData _buildAppTheme() {
-    const textStyle = const TextStyle(
+  ThemeData _buildAppTheme(BuildContext context) {
+    const textStyle = TextStyle(
       color: Colors.white,
     );
     return ThemeData(

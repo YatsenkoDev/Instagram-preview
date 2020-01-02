@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
       dispose: (context, value) => value.dispose(),
       child: DefaultTabController(
         length: 2,
-        child: Consumer<HomeBloc>(builder: (_, homeBloc, __) {
+        child: Consumer<HomeBloc>(builder: (context, homeBloc, _) {
           return Scaffold(
             appBar: AppBar(
               elevation: 0,
