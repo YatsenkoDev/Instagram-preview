@@ -30,7 +30,8 @@ class HomeScreen extends StatelessWidget {
                     return ProfileExpandableListWidget(
                       profileList: snapshot.data,
                       selectedUserStream: homeBloc.selectedUserStream,
-                      onUserSelected: homeBloc.setSelectedUser,
+                      onUserSelected: (user) =>
+                          homeBloc.setSelectedUser(user, context),
                     );
                   }),
               actions: <Widget>[

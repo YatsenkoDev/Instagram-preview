@@ -70,16 +70,4 @@ class ProfileExpandableListWidget extends StatelessWidget {
       onSelected: onUserSelected,
     );
   }
-
-//  void _addAccount() {
-//    print('_addAccount');
-//    Navigator.push(
-//        context,
-//        MaterialPageRoute(
-//            builder: (context) => WebViewScreen(url: _getAuthUrl())));
-//  }
-//
-//  String _getAuthUrl() {
-//    return "https://api.instagram.com/oauth/authorize?client_id=${InstaKeys.clientId}&redirect_uri=${InstaKeys.redirectUrl}&response_type=token";
-//  }
 }
