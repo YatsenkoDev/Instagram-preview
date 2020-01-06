@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class FeedElement extends StatelessWidget {
@@ -9,7 +10,7 @@ class FeedElement extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(1.0),
-      child: Image.network(photoUrl),
+      child: CachedNetworkImage(imageUrl: photoUrl),
     );
   }
 }

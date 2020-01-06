@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:insta_preview/api/api_manager.dart';
 import 'package:insta_preview/api/model/user.dart';
 import 'package:insta_preview/feature/webview/screen/webview_screen.dart';
 import 'package:insta_preview/repository/repository_manager.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HomeBloc {
-  final RepositoryManager _repositoryManager = RepositoryManager();
+  final _repositoryManager = RepositoryManager();
+
+  final _apiManager = ApiManager();
 
   final _userListSubject = BehaviorSubject<List<User>>();
 
@@ -37,8 +40,12 @@ class HomeBloc {
           context, MaterialPageRoute(builder: (context) => WebViewScreen()))
       .then(_onCodeReceived);
 
-  void _onCodeReceived(String code) {
-    if (code?.isNotEmpty ?? false) {}
+  void _onCodeReceived(String code) async {
+    if (code?.isNotEmpty ?? false) {
+      String token = await _apiManager.requestToken(code);
+      _repositoryManager.saveToken(token);
+      _apiManager.getPhotos(token).then(_photoListSubject.add);
+    }
   }
 
   void dispose() {

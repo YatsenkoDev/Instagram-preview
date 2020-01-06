@@ -1,11 +1,13 @@
 import 'dart:convert';
 
-import 'package:http/http.dart';
+import 'package:flutter/foundation.dart';
 import 'package:insta_preview/api/insta_keys.dart';
 import 'package:insta_preview/api/model/user.dart';
 import 'package:http/http.dart' as http;
 
 class ApiManager {
+  final _mediaUrl =
+      'https://graph.instagram.com/me/media?fields=thumbnail_url,media_url&limit=25&access_token=';
   final _longLivedTokenUrl =
       'https://graph.instagram.com/access_token?grant_type=ig_exchange_token&client_secret=${InstaKeys.appSecret}&access_token=';
   final _refreshTokenUrl =
@@ -25,19 +27,18 @@ class ApiManager {
         : '';
   }
 
-  Future<String> _getLongLivedToken(String token) async {
-    final response = await http.get(_longLivedTokenUrl + token);
+  Future<String> _getLongLivedToken(String token) =>
+      _requestToken(_longLivedTokenUrl + token);
+
+  Future<String> _refreshToken(String token) =>
+      _requestToken(_refreshTokenUrl + token);
+
+  Future<String> _requestToken(String url) async {
+    final response = await http.get(url);
     return response.statusCode == 200 ? _decodeToken(response) : '';
   }
 
-  Future<void> _refreshToken(String token) async {
-    final response = await http.get(_refreshTokenUrl + token);
-    if (response.statusCode == 200) {
-      return _decodeToken(response);
-    }
-  }
-
-  String _decodeToken(Response response) =>
+  String _decodeToken(http.Response response) =>
       jsonDecode(response.body)['access_token'];
 
 //  Future<User> getUser(String token) async {
@@ -50,20 +51,21 @@ class ApiManager {
 //    throw Error();
 //  }
 //
-//  Future<List<String>> getPhotos(String token) async {
-//    String resultPage =
-//        'https://api.instagram.com/v1/users/self/media/recent/?access_token=$token';
-//    Response response = await get(resultPage);
-//    if (response.statusCode == 200) {
-//      List<String> photos = [];
-//      List<dynamic> data = jsonDecode(response.body)['data'];
-//      print('List - ${jsonDecode(response.body)['data']}');
-//      for (Map<String, dynamic> element in data) {
-//        photos.add(element['images']['thumbnail']['url']);
-//      }
-//      print(photos);
-//      return photos;
-//    }
-//    throw Error();
-//  }
+  Future<List<String>> getPhotos(String token) async {
+    List<String> photos = [];
+    final response = await http.get(_mediaUrl + token);
+    if (response.statusCode == 200) {
+      photos = await compute(_parseMedia, response.body);
+    }
+    return photos;
+  }
+}
+
+List<String> _parseMedia(String json) {
+  List<String> photos = [];
+  List<dynamic> data = jsonDecode(json)['data'];
+  for (Map<String, dynamic> element in data) {
+    photos.add(element['thumbnail_url'] ?? element['media_url']);
+  }
+  return photos;
 }
