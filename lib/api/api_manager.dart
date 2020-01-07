@@ -7,11 +7,13 @@ import 'package:http/http.dart' as http;
 
 class ApiManager {
   final _mediaUrl =
-      'https://graph.instagram.com/me/media?fields=thumbnail_url,media_url&limit=25&access_token=';
+      'https://graph.instagram.com/me/media?fields=thumbnail_url,media_url&limit=1000&access_token=';
   final _longLivedTokenUrl =
       'https://graph.instagram.com/access_token?grant_type=ig_exchange_token&client_secret=${InstaKeys.appSecret}&access_token=';
   final _refreshTokenUrl =
       'https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=';
+  final _userUrl =
+      'https://graph.instagram.com/me?fields=id,username&access_token=';
 
   Future<String> requestToken(String code) async {
     final response =
@@ -51,6 +53,14 @@ class ApiManager {
 //    throw Error();
 //  }
 //
+
+  Future<User> getUser(String token) async {
+    final response = await http.get(_userUrl + token);
+    return response.statusCode == 200
+        ? User.fromJson(jsonDecode(response.body))
+        : '';
+  }
+
   Future<List<String>> getPhotos(String token) async {
     List<String> photos = [];
     final response = await http.get(_mediaUrl + token);

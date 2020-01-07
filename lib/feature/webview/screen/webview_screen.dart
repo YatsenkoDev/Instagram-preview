@@ -10,6 +10,7 @@ class WebViewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider<WebViewBloc>(
       create: (context) => WebViewBloc(context),
+      lazy: false,
       dispose: (context, bloc) => bloc.dispose(),
       child: WebviewScaffold(
         resizeToAvoidBottomInset: true,

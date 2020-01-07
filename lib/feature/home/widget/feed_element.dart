@@ -10,7 +10,10 @@ class FeedElement extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(1.0),
-      child: CachedNetworkImage(imageUrl: photoUrl),
+      child: CachedNetworkImage(
+        imageUrl: photoUrl,
+        fit: BoxFit.cover,
+      ),
     );
   }
 }

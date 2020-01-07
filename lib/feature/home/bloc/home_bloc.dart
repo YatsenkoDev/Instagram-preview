@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:insta_preview/api/api_manager.dart';
 import 'package:insta_preview/api/model/user.dart';
 import 'package:insta_preview/feature/webview/screen/webview_screen.dart';
+import 'package:insta_preview/global/routes.dart';
 import 'package:insta_preview/repository/repository_manager.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -36,15 +37,25 @@ class HomeBloc {
     }
   }
 
-  void _addAccount(BuildContext context) => Navigator.push(
-          context, MaterialPageRoute(builder: (context) => WebViewScreen()))
-      .then(_onCodeReceived);
+  //  void _addAccount(BuildContext context) async {
+//    String code = await Navigator.push(
+//        context, MaterialPageRoute(builder: (context) => WebViewScreen()));
+//    _onCodeReceived(code);
+//  }
+
+  void _addAccount(BuildContext context) =>
+      Navigator.pushNamed(context, kWebViewScreen)
+          .then((c) => _onCodeReceived(c));
 
   void _onCodeReceived(String code) async {
     if (code?.isNotEmpty ?? false) {
       String token = await _apiManager.requestToken(code);
       _repositoryManager.saveToken(token);
       _apiManager.getPhotos(token).then(_photoListSubject.add);
+      _apiManager.getUser(token).then((user) async {
+        _selectedUserSubject.add(user);
+        _userListSubject.add((await _userListSubject.first)..add(user));
+      });
     }
   }
 

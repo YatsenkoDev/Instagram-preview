@@ -14,6 +14,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider<HomeBloc>(
       create: (context) => HomeBloc(),
+      lazy: false,
       dispose: (context, value) => value.dispose(),
       child: DefaultTabController(
         length: 2,
