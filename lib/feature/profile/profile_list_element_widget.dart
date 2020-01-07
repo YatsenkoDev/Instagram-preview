@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:insta_preview/feature/profile/profile_preview_widget.dart';
 
 class ProfileListElementWidget extends StatelessWidget {
-  final String imageUrl;
   final String name;
   final bool selected;
   final _checkerSize = 22.0;
 
   const ProfileListElementWidget({
-    this.imageUrl,
     this.name,
     this.selected,
   });
@@ -24,7 +22,6 @@ class ProfileListElementWidget extends StatelessWidget {
           children: <Widget>[
             ProfilePreviewWidget(
               name: name,
-              imageUrl: imageUrl,
               bold: false,
             ),
             Icon(

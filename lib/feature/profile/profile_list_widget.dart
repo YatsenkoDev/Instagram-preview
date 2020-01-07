@@ -27,7 +27,6 @@ class ProfileExpandableListWidget extends StatelessWidget {
                   stream: selectedUserStream,
                   builder: (context, snapshot) {
                     return ProfileListElementWidget(
-                      imageUrl: user.profilePicture,
                       name: user.username,
                       selected: user.id == snapshot.data?.id,
                     );
@@ -55,7 +54,6 @@ class ProfileExpandableListWidget extends StatelessWidget {
                       children: <Widget>[
                         ProfilePreviewWidget(
                           name: snapshot.data.username,
-                          imageUrl: snapshot.data.profilePicture,
                           bold: true,
                         ),
                         Icon(
