@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_preview/api/api_manager.dart';
 import 'package:insta_preview/api/model/user.dart';
-import 'package:insta_preview/feature/webview/screen/webview_screen.dart';
 import 'package:insta_preview/global/routes.dart';
 import 'package:insta_preview/repository/repository_manager.dart';
 import 'package:rxdart/rxdart.dart';
@@ -25,23 +24,25 @@ class HomeBloc {
   Stream<List<String>> get photoListStream => _photoListSubject.stream;
 
   HomeBloc() {
-    _repositoryManager.getUsers().then(_userListSubject.add);
-    _repositoryManager.getLastSelectedUser().then(_selectedUserSubject.add);
+    _loadInitialData();
   }
 
-  void setSelectedUser(User user, BuildContext context) {
-    if (user.id != null) {
+  void _loadInitialData() async {
+    await _repositoryManager.initHive();
+    _repositoryManager.getLastSelectedUser().then(setSelectedUser);
+    _repositoryManager.getUsers().then(_userListSubject.add);
+  }
+
+  void setSelectedUser(User user, {BuildContext context}) {
+    if (!user.isEmpty()) {
       _selectedUserSubject.add(user);
-    } else {
+      _repositoryManager
+        ..saveLastSelectedUser(user)
+        ..getPhotos(user.id).then(_photoListSubject.add);
+    } else if (context != null) {
       _addAccount(context);
     }
   }
-
-  //  void _addAccount(BuildContext context) async {
-//    String code = await Navigator.push(
-//        context, MaterialPageRoute(builder: (context) => WebViewScreen()));
-//    _onCodeReceived(code);
-//  }
 
   void _addAccount(BuildContext context) =>
       Navigator.pushNamed(context, kWebViewScreen)
@@ -51,10 +52,16 @@ class HomeBloc {
     if (code?.isNotEmpty ?? false) {
       String token = await _apiManager.requestToken(code);
       _repositoryManager.saveToken(token);
-      _apiManager.getPhotos(token).then(_photoListSubject.add);
       _apiManager.getUser(token).then((user) async {
         _selectedUserSubject.add(user);
-        _userListSubject.add((await _userListSubject.first)..add(user));
+        final newUserList = (await _userListSubject.first)..add(user);
+        _userListSubject.add(newUserList);
+        _apiManager.getPhotos(token).then((photos) {
+          _photoListSubject.add(photos);
+          _repositoryManager.savePhotos(photos, user.id);
+        });
+        _repositoryManager
+            .saveUsers(newUserList.map((user) => user.toJson()).toList());
       });
     }
   }
@@ -63,5 +70,6 @@ class HomeBloc {
     _userListSubject.close();
     _photoListSubject.close();
     _selectedUserSubject.close();
+    _repositoryManager.dispose();
   }
 }

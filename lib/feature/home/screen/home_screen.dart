@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                       profileList: snapshot.data,
                       selectedUserStream: homeBloc.selectedUserStream,
                       onUserSelected: (user) =>
-                          homeBloc.setSelectedUser(user, context),
+                          homeBloc.setSelectedUser(user, context: context),
                     );
                   }),
               actions: <Widget>[

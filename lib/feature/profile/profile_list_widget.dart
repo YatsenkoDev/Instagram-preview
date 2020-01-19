@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_preview/api/model/user.dart';
+import 'package:insta_preview/global/global_translations.dart';
 import 'package:insta_preview/widget/add_account_widget.dart';
 import 'package:insta_preview/feature/profile/profile_list_element_widget.dart';
 import 'package:insta_preview/feature/profile/profile_preview_widget.dart';
+import 'package:insta_preview/global/strings.dart' as string;
 
 class ProfileExpandableListWidget extends StatelessWidget {
   final List<User> profileList;
@@ -53,7 +55,8 @@ class ProfileExpandableListWidget extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         ProfilePreviewWidget(
-                          name: snapshot.data.username,
+                          name: snapshot.data.username ??
+                              translations.string(string.addAccount),
                           bold: true,
                         ),
                         Icon(

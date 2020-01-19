@@ -1,49 +1,59 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:hive/hive.dart';
 import 'package:insta_preview/api/model/user.dart';
-import 'package:insta_preview/global/constants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path_provider/path_provider.dart';
+
+const _singleBoxKey = 'stringBox';
+const _listBoxKey = 'listBox';
+const _tokenKey = 'token';
+const _usersKey = 'users';
+const _photosKey = 'photos';
+const _lastSelectedUser = 'last';
 
 class RepositoryManager {
-  final _tokenKey = 'Token';
-  final _tokenSalt = 'T';
-  final _saltPosition = 10;
+  Future<void> initHive() async {
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    Hive.init(appDocDir.path);
+  }
 
   Future<User> getLastSelectedUser() async {
-    return User.fromJson({
-      kId: '123',
-      kUserName: 'Selctd user',
-      kProfilePicture:
-          'https://cdn2.iconfinder.com/data/icons/circle-avatars-1/128/050_girl_avatar_profile_woman_suit_student_officer-512.png'
-    });
+    final user = await (await Hive.openLazyBox<String>(_singleBoxKey))
+        .get(_lastSelectedUser);
+    return user != null ? User.fromDecodedJson(jsonDecode(user)) : User.empty();
   }
 
-  Future<List<User>> getUsers() async {
-    return [
-      User.fromJson({
-        kId: '123',
-        kUserName: 'Selctd user',
-        kProfilePicture:
-            'https://cdn2.iconfinder.com/data/icons/circle-avatars-1/128/050_girl_avatar_profile_woman_suit_student_officer-512.png'
-      }),
-      User.fromJson({
-        kId: '124',
-        kUserName: '§ ushh hhh  h h hh hhh h h h hh h h er',
-        kProfilePicture:
-            'https://cdn2.iconfinder.com/data/icons/circle-avatars-1/128/050_girl_avatar_profile_woman_suit_student_officer-512.png'
-      }),
-      User.fromJson({
-        kId: '125',
-        kUserName: '2 user',
-        kProfilePicture:
-            'https://cdn2.iconfinder.com/data/icons/circle-avatars-1/128/050_girl_avatar_profile_woman_suit_student_officer-512.png'
-      }),
-    ];
+  void saveLastSelectedUser(User user) async =>
+      (await Hive.openLazyBox<String>(_singleBoxKey))
+          .put(_lastSelectedUser, user.toJson());
+
+  Future<List<User>> getUsers() async =>
+      (await (await Hive.openLazyBox<List<String>>(_listBoxKey))
+              .get(_usersKey, defaultValue: []))
+          .map((user) => User.fromDecodedJson(jsonDecode(user)))
+          .toList();
+
+  void saveUsers(List<String> users) async {
+    (await Hive.openLazyBox<List<String>>(_listBoxKey)).put(_usersKey, users);
   }
 
-  Future<void> saveToken(String token) async =>
-      (await SharedPreferences.getInstance()).setString(_tokenKey,
-          token.replaceRange(_saltPosition, _saltPosition, _tokenSalt));
+  void savePhotos(List<String> photos, String userId) async {
+    (await Hive.openLazyBox<List<String>>(_listBoxKey))
+        .put(_photosKey + userId, photos);
+  }
 
-  Future<String> getToken() async => (await SharedPreferences.getInstance())
-      .getString(_tokenKey)
-      .replaceRange(_saltPosition, _saltPosition + 1, '');
+  Future<List<String>> getPhotos(String userId) async =>
+      (await Hive.openLazyBox<List<String>>(_listBoxKey))
+          .get(_photosKey + userId);
+
+  void saveToken(String token) async =>
+      (await Hive.openLazyBox<String>(_singleBoxKey)).put(_tokenKey, token);
+
+  Future<String> getToken() async =>
+      (await Hive.openLazyBox<String>(_singleBoxKey)).get(_tokenKey);
+
+  void dispose() {
+    Hive.close();
+  }
 }

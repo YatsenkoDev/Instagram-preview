@@ -38,10 +38,10 @@ class MainApp extends StatelessWidget {
       color: Colors.white,
     );
     return ThemeData(
-      primaryColor: kCyanColor,
+      primaryColor: kBlueColor,
       accentColor: kPinkColor,
       scaffoldBackgroundColor: Colors.white,
-      cardColor: kCyanColor,
+      cardColor: kBlueColor,
       fontFamily: kGilroyFont,
       textTheme: Theme.of(context).textTheme.copyWith(
             body1: textStyle,

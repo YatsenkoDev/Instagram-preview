@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insta_preview/global/constants.dart';
+import 'package:insta_preview/global/global_translations.dart';
+import 'package:insta_preview/global/strings.dart' as string;
 
 class AddAccountWidget extends StatelessWidget {
   @override
@@ -8,15 +10,10 @@ class AddAccountWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: Text(
-            'Добавить аккаунт', //todo replace
-            style: TextStyle(
-                fontSize: 16.0,
-                color: Colors.white,
-                fontWeight: FontWeight.w700),
-          ),
+        Text(
+          translations.string(string.addAccount),
+          style: TextStyle(
+              fontSize: 16.0, color: Colors.white, fontWeight: FontWeight.w700),
         ),
         Icon(
           kCupertinoAddIconData,

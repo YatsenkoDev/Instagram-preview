@@ -3,3 +3,4 @@
 
 //Fonts
 const kGilroyFont = 'Gilroy';
+const kOpenSansFont = 'OpenSans';

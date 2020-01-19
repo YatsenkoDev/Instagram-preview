@@ -57,7 +57,7 @@ class ApiManager {
   Future<User> getUser(String token) async {
     final response = await http.get(_userUrl + token);
     return response.statusCode == 200
-        ? User.fromJson(jsonDecode(response.body))
+        ? User.fromDecodedJson(jsonDecode(response.body))
         : '';
   }
 

@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 //Colors
-const kCyanColor = Color(0xFF26C6DA);
+const kBlueColor = Color(0xFF0F5286);
 const kPinkColor = Color(0xFFD81B60);
+const kGridColor = Color.fromRGBO(255, 255, 255, 0.28);
 
 //Locales
 const kEnglishLocale = 'en';
