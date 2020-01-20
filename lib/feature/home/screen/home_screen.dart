@@ -18,66 +18,74 @@ class HomeScreen extends StatelessWidget {
       dispose: (context, value) => value.dispose(),
       child: DefaultTabController(
         length: 2,
-        child: Consumer<HomeBloc>(builder: (context, homeBloc, _) {
-          return Scaffold(
-            appBar: AppBar(
-              elevation: 0,
-              titleSpacing: 0,
-              backgroundColor: Theme.of(context).primaryColor,
-              title: StreamBuilder<List<User>>(
+        child: Consumer<HomeBloc>(
+          builder: (context, homeBloc, _) {
+            return Scaffold(
+              appBar: AppBar(
+                elevation: 0,
+                titleSpacing: 0,
+                backgroundColor: Theme.of(context).primaryColor,
+                title: StreamBuilder<List<User>>(
                   initialData: const [],
                   stream: homeBloc.userListStream,
                   builder: (context, snapshot) {
-                    return ProfileExpandableListWidget(
-                      profileList: snapshot.data,
-                      selectedUserStream: homeBloc.selectedUserStream,
-                      onUserSelected: (user) =>
-                          homeBloc.setSelectedUser(user, context: context),
-                    );
-                  }),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    kCupertinoAddIconData,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {},
+                    return snapshot.data?.isEmpty ?? true
+                        ? GestureDetector(
+                            onTap: () => homeBloc.setSelectedUser(User.empty(),
+                                context: context),
+                            child: Text(translations.string(string.addAccount)))
+                        : ProfileExpandableListWidget(
+                            profileList: snapshot.data,
+                            selectedUserStream: homeBloc.selectedUserStream,
+                            onUserSelected: (user) => homeBloc
+                                .setSelectedUser(user, context: context),
+                          );
+                  },
                 ),
-                IconButton(
-                  icon: Icon(
-                    Icons.sync,
-                    color: Colors.white,
+                actions: <Widget>[
+                  IconButton(
+                    icon: Icon(
+                      kCupertinoAddIconData,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {},
                   ),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.more_vert,
-                    color: Colors.white,
+                  IconButton(
+                    icon: Icon(
+                      Icons.sync,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {},
                   ),
-                  onPressed: () {},
+                  IconButton(
+                    icon: Icon(
+                      Icons.more_vert,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {},
+                  ),
+                ],
+                bottom: TabBar(
+                  tabs: <Widget>[
+                    Tab(child: Text(translations.string(string.feed))),
+                    Tab(child: Text('HashTags')),
+                  ],
                 ),
-              ],
-              bottom: TabBar(
-                tabs: <Widget>[
-                  Tab(child: Text(translations.string(string.feed))),
-                  Tab(child: Text('HashTags')),
+              ),
+              body: TabBarView(
+                children: <Widget>[
+                  FeedPage(photoListStream: homeBloc.photoListStream),
+                  Container(
+                    color: Colors.grey[100],
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                    ),
+                  ),
                 ],
               ),
-            ),
-            body: TabBarView(
-              children: <Widget>[
-                FeedPage(photoListStream: homeBloc.photoListStream),
-                Container(
-                  color: Colors.grey[100],
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                  ),
-                ),
-              ],
-            ),
-          );
-        }),
+            );
+          },
+        ),
       ),
     );
   }
