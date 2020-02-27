@@ -4,6 +4,7 @@ import 'package:insta_preview/api/model/user.dart';
 import 'package:insta_preview/feature/home/bloc/home_bloc.dart';
 import 'package:insta_preview/feature/home/page/feed_page.dart';
 import 'package:insta_preview/feature/profile/profile_list_widget.dart';
+import 'package:insta_preview/global/assets.dart';
 import 'package:insta_preview/global/constants.dart';
 import 'package:insta_preview/global/global_translations.dart';
 import 'package:insta_preview/global/strings.dart' as string;
@@ -33,7 +34,16 @@ class HomeScreen extends StatelessWidget {
                         ? GestureDetector(
                             onTap: () => homeBloc.setSelectedUser(User.empty(),
                                 context: context),
-                            child: Text(translations.string(string.addAccount)))
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20, top: 5),
+                              child: Text(
+                                translations.string(string.addAccount),
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: kGilroyFont,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                            ))
                         : ProfileExpandableListWidget(
                             profileList: snapshot.data,
                             selectedUserStream: homeBloc.selectedUserStream,
