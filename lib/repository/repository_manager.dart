@@ -5,12 +5,12 @@ import 'package:hive/hive.dart';
 import 'package:insta_preview/api/model/user.dart';
 import 'package:path_provider/path_provider.dart';
 
-const _singleBoxKey = 'stringBox';
-const _listBoxKey = 'listBox';
-const _tokenKey = 'token';
-const _usersKey = 'users';
-const _photosKey = 'photos';
-const _lastSelectedUser = 'last';
+const _singleBoxKey = 'stringBox2';
+const _listBoxKey = 'listBox2';
+const _tokenKey = 'token2';
+const _usersKey = 'users2';
+const _photosKey = 'photos2';
+const _lastSelectedUser = 'last2';
 
 class RepositoryManager {
   Future<void> initHive() async {

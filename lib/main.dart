@@ -35,6 +35,8 @@ class MainApp extends StatelessWidget {
 
   ThemeData _buildAppTheme(BuildContext context) {
     const textStyle = TextStyle(
+      fontFamily: kGilroyFont,
+      fontSize: 16,
       color: Colors.white,
     );
     return ThemeData(
