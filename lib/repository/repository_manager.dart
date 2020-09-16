@@ -38,7 +38,11 @@ class RepositoryManager {
     (await Hive.openLazyBox<List<String>>(_listBoxKey)).put(_usersKey, users);
   }
 
-  void savePhotos(List<String> photos, String userId) async {
+  void savePhotos(List<String> photos, {String userId}) async {
+    if (userId == null) {
+      userId = (await getLastSelectedUser()).id;
+    }
+    if (userId == null) return;
     (await Hive.openLazyBox<List<String>>(_listBoxKey))
         .put(_photosKey + userId, photos);
   }

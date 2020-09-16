@@ -1,7 +1,9 @@
 import 'package:insta_preview/feature/home/model/photo_element.dart';
+import 'package:insta_preview/repository/repository_manager.dart';
 import 'package:rxdart/rxdart.dart';
 
 class FeedBloc {
+  final _repositoryManager = RepositoryManager();
   final _photosSubject = BehaviorSubject<List<PhotoElement>>();
 
   Stream<List<PhotoElement>> get photosStream => _photosSubject.stream;
@@ -23,8 +25,9 @@ class FeedBloc {
     if (_leaveIndex != null && acceptIndex != _leaveIndex) {
       _acceptIndex = acceptIndex;
       PhotoElement leavePhoto = _photos[_leaveIndex].copyWith(dragging: true);
-      _photos.removeAt(_leaveIndex);
-      _photos.insert(acceptIndex, leavePhoto);
+      _photos
+        ..removeAt(_leaveIndex)
+        ..insert(acceptIndex, leavePhoto);
       _photosSubject.add(_photos);
     }
   }
@@ -37,6 +40,8 @@ class FeedBloc {
     _photos[_acceptIndex] = _photos[_acceptIndex].copyWith(dragging: false);
     _photosSubject.add(_photos);
     _leaveIndex = null;
+    _repositoryManager
+        .savePhotos(_photos.map((element) => element.photoUrl).toList());
   }
 
   void dispose() {

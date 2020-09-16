@@ -58,7 +58,7 @@ class HomeBloc {
         _userListSubject.add(newUserList);
         _apiManager.getPhotos(token).then((photos) {
           _photoListSubject.add(photos);
-          _repositoryManager.savePhotos(photos, user.id);
+          _repositoryManager.savePhotos(photos, userId: user.id);
         });
         _repositoryManager
             .saveUsers(newUserList.map((user) => user.toJson()).toList());

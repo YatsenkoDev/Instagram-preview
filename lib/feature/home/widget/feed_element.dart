@@ -42,7 +42,7 @@ class FeedElement extends StatelessWidget {
       onDragStarted: () {
         onLeave(index);
       },
-      onDragCompleted: onDragCompleted,
+      onDragEnd: (_) => onDragCompleted(),
       child: DragTarget(
         builder: (context, _, __) => Stack(
           children: <Widget>[
